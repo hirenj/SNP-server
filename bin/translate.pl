@@ -46,7 +46,7 @@ my $sub_val = sub {
 };
 
 my $edits = {
-"TAIR9" => {
+"tair9" => {
 'AT1G03495.1' => [ 874463, $add_val, "A" ],
 "AT1G07290.1" => [ 2243386, $add_val, "C" ],
 "AT1G17000.1" => [ 5815327, $add_val, "N" ],
@@ -102,7 +102,7 @@ my $edits = {
 "AT5G18710.1" => [ 6242822, $del_val, "" ],
 "AT5G23480.1" => [ 7918410, $add_val, "C" ]
 },
-"TAIR10" => {
+"tair10" => {
 "AT1G54360.1"   => [ 20291172, $add_val,"T"],
 "AT1G54360.2"   => [ 20291172, $add_val,"T"],
 "AT1G54360.3"   => [ 20291172, $add_val,"T"],
@@ -138,7 +138,9 @@ pod2usage(1) if $help;
 
 my $in = Bio::SeqIO->new('-file' => $fasta_file, '-format' => 'Fasta');
 
-my ($tairversion) = ($cds_file =~ /(TAIR\d+)/);
+my ($tairversion) = ($cds_file =~ /(TAIR\d+)/i);
+
+$tairversion = lc $tairversion;
 
 warn $cds_file;
 # error on empty values, ensure no CR/LF at end of file

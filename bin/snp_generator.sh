@@ -10,7 +10,7 @@ FASTADIR=fastas
 
 if [ ! -d "$WORKDIR" ]
 then
-    echo "Could not find reference data at $WORKDIR"
+    echo "Could not find work dir at $WORKDIR"
     exit 1;
 fi
 
@@ -30,7 +30,7 @@ fi
 
 FILES=($@)
 if [[ $# = 0 ]]; then
-   FILES=($INPUTDIR/*SNP*.txt)
+   FILES=($INPUTDIR/*snp*.txt)
 fi
 for snp in ${FILES[@]}
 do
@@ -131,7 +131,7 @@ do
         touch $workdir/protein_chr$chr.inprogress
 
 
-        $TRANSLATE --fasta $chr_file --cds "$REFDATA/$tair_ver/$tair_ver""_CDS.txt" --chromosome $chr --write "$workdir/protein_chr$chr.inprogress" -v -v -v 2> $workdir/protein_chr$chr.log
+        $TRANSLATE --fasta $chr_file --cds "$REFDATA/$tair_ver/$tair_ver""_cds.txt" --chromosome $chr --write "$workdir/protein_chr$chr.inprogress" -v -v -v 2> $workdir/protein_chr$chr.log
         
 
         if [ $? -ne 0 ]; then

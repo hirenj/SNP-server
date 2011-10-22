@@ -20,9 +20,10 @@ fi
 
 
 PERLPROG='open(FASTA,$ARGV[0]); while(my $line = <FASTA>) { $line =~ s/\n$//; if ($line =~ s/^>// ) { if ($line !~ /^\s*$/) { print qq|{"data" : ["$line","","|; } } elsif ($line !~ /^\s*$/) { $line =~ s/\*$//; print qq|$line"]}\n|; } }'
-for i in `find $FASTADIR -name 'protein*M.fas'`; do
+for i in `find -L $FASTADIR -name 'protein*m.fas'`; do
     ecotype=${i%/*}
     result=${ecotype##*/}
+    echo $result;
     if [ ! -e $WORKDIR/$result-json.txt ]; then
         touch "$WORKDIR/$result-json.txt"
         for fasta in `ls -1 $ecotype`; do
@@ -33,7 +34,7 @@ for i in `find $FASTADIR -name 'protein*M.fas'`; do
 done
 
 for acc in $WORKDIR/*-json.txt; do
-    accname=`echo $acc |  sed -e 's/.*\(TAIR[0-9][0-9]*-.*\)-.*/\1/'`;
+    accname=`echo $acc | perl -pe 's/.*(TAIR[0-9][0-9]*-.*)-.*/\1/i'`;
     if [ ! -e $WORKDIR/$accname-seqs.txt ]; then
         cat $acc | awk -F'","' '{ print $1 "," $3 }' | sed -e 's/"]}//' | sed -e 's/^.*"//' > $WORKDIR/$accname-seqs.txt
         echo $accname-seqs.txt
@@ -41,8 +42,8 @@ for acc in $WORKDIR/*-json.txt; do
 done
 
 for acc in $WORKDIR/*-json.txt; do
-    accname=`echo $acc | sed -e 's/.*\(TAIR[0-9][0-9]*-.*\)-.*/\1/'`;
-    tairver=`echo $acc | sed -e 's/.*\(TAIR[0-9][0-9]*\).*/\1/'`;
+    accname=`echo $acc | perl -pe 's/.*(TAIR[0-9][0-9]*-.*)-.*/\1/i'`;
+    tairver=`echo $acc | perl -pe 's/.*(TAIR[0-9][0-9]*).*/\1/i'`;
     if [ ! -e $WORKDIR/$accname-subs.txt ]; then
         bin/fast_diff $WORKDIR/$tairver-Col0-seqs.txt $WORKDIR/$accname-seqs.txt > $WORKDIR/$accname-subs.txt;  
         echo $accname-subs.txt
@@ -50,7 +51,7 @@ for acc in $WORKDIR/*-json.txt; do
 done
 
 for acc in $WORKDIR/*-subs.txt; do\
-    accname=`echo "$acc" | sed -e 's/TAIR.*-\(.*\)-subs.txt/\1/'`;\
+    accname=`echo "$acc" | perl -pe 's/TAIR.*-(.*)-subs.txt/\1/i'`;\
     cat $acc | sed -e 's/\([:,]\)/"\1"/g' | sed -e 's/ \([0-9]\)/ "\1/' |\
     awk "{ print \$1 \",\\\"$accname\\\" : {\" \$2 \"},\" }" |\
     sed -e 's/,\"}/}/';\

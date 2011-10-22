@@ -62,3 +62,6 @@ fi
 if [ ! -d $LOCAL_REFDATA ]; then
     ln -s $REFDATA $LOCAL_REFDATA
 fi
+
+mkdir /tmp/work
+ln -s /tmp/work work
