@@ -7,11 +7,9 @@ use Inline C => <<'END_C';
 char replace_char(int pos,char is, char *file) {
     FILE *ptr = fopen(file, "r+");
     char was;
-    fpos_t position;
-    position = pos;
-    fsetpos(ptr,&position);
+    fseek(ptr,pos,0);
     was = fgetc(ptr);
-    fsetpos(ptr,&position);
+    fseek(ptr,pos,0);
     fputc(is,ptr);
     fclose(ptr);
     return was;
@@ -45,9 +43,8 @@ sub apply_snp {
         $old_was = replace_char($pos - 1,$is,$outfile);
     } else {
         $old_was = substr($seq,($pos - 1),1,$is);        
-        return $seq;
     }
-    
+
     if ($was eq $old_was) {
         if ($outfile) {
             return;
@@ -100,8 +97,7 @@ sub apply_snp {
         $was =~ tr/AGCTRYWSMKHBVD/N/;
         $old_was =~ tr/AGCTRYWSMKHBVD/N/;
     }
-    
-    if ($was ne $old_was) {        
+    if ($was ne $old_was) {
         die "At position ${pos} actually is ${old_was} should be ${was}";
     }
     return $seq;
