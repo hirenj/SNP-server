@@ -43,13 +43,13 @@ do
 
     finished_count=`ls -1 $FASTADIR/$work_id/protein_chr*.fas 2> /dev/null | wc -l | sed -e 's/ *//'`
 
-    if [ ! -e $WORKDIR/$work_id.done ] && [ $finished_count -eq '7' ]
+    if [ ! -e "$WORKDIR/$work_id.done" ] && [ $finished_count -eq '7' ]
     then
         touch "$WORKDIR/$work_id.done"
         continue
     fi
     
-    if [ "$snp" -nt "$WORKDIR/$work_id.done" ]
+    if [ -e "$WORKDIR/$work_id.done" ] && [ "$snp" -nt "$WORKDIR/$work_id.done" ]
     then
         rm "$WORKDIR/$work_id.done"
         rm -rf "$WORKDIR/$work_id"
