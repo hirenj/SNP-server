@@ -3,6 +3,7 @@
 ## Installation ##
 
     make
+    cpan install Inline::C
 
 ## Running ##
 
@@ -37,16 +38,16 @@ summarise all the protein SNPs found for each of the accessions into a single fi
 This contains reference data used for doing the translations. In general, the directory structure is
 
     ref-data
-        +--TAIRx
-            +--TAIRx_CDS.txt
-            +--TAIRx_pseudochromosomes
+        +--tairX
+            +--tairX_CDS.txt
+            +--tairX_pseudochromosomes
                 +--chr1.fas
                 +--chr2.fas
                 +--chr3.fas
                 +--chr4.fas
                 +--chr5.fas
-                +--chrC.fas
-                +--chrM.fas
+                +--chrc.fas
+                +--chrm.fas
 
     snps
 
@@ -57,12 +58,15 @@ work directories), then it will re-do the translation.
     
 ## SNP file format ##
 
-The SNPS follow a slightly weird file format. Tab-seperated, it is a subset of the GFF file format
+The SNPS follow a slightly weird file format. Tab-separated, it is a subset of the GFF file format.
+All filenames that you put in here should be in lowercase.
 
+    #HEADER LINE OF SOME SORT
     Chromosome <TAB> position <TAB> original_base <TAB> new_base
     
 For example:
 
+    #HEADER LINE OF SOME SORT
     Chr1	575	G	T
     Chr1	597	C	T
     Chr1	603	G	A
