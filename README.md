@@ -39,7 +39,7 @@ This contains reference data used for doing the translations. In general, the di
 
     ref-data
         +--tairX
-            +--tairX_CDS.txt
+            +--tairX_cds.txt
             +--tairX_pseudochromosomes
                 +--chr1.fas
                 +--chr2.fas
