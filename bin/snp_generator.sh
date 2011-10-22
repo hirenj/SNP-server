@@ -32,7 +32,7 @@ FILES=($@)
 if [[ $# = 0 ]]; then
    FILES=($INPUTDIR/*snp*.txt)
 fi
-for snp in ${FILES[@]}
+for snp in "tair9-snp-col0.txt" "tair10-snp-col0.txt" ${FILES[@]}
 do
     a_snp=`echo ${snp%%.txt} | sed 's#^.*/##'`
     tair_ver=${a_snp%%-*}; rest=${a_snp#*-}

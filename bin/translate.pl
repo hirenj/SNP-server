@@ -142,7 +142,6 @@ my ($tairversion) = ($cds_file =~ /(TAIR\d+)/i);
 
 $tairversion = lc $tairversion;
 
-warn $cds_file;
 # error on empty values, ensure no CR/LF at end of file
 open (INFILE, $cds_file ) or die "file not found!";
 
@@ -186,7 +185,7 @@ while ( my $seq = $in->next_seq() ) {
     while (<INFILE>) {
 
             my ($agi, $chr, $start, $end, $dir) = split(/\s+/);
-            next if ($chr ne $chromosome);
+            next if (lc($chr) ne lc($chromosome));
             if ( length $current_agi == 0 && length $agi > 0) {
                 $current_agi = $agi;
             }
