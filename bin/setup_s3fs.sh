@@ -2,7 +2,7 @@
 
 BASE=$HOME
 
-S3MNTDIR=$BASE/s31001proteomes
+S3MNTDIR=$BASE/mnt_s3
 FASTADIR=$S3MNTDIR/translated
 SNPDIR=$S3MNTDIR/snps
 GATORDIR=$S3MNTDIR/gator-snps
@@ -13,12 +13,30 @@ LOCAL_FASTAS=fastas
 LOCAL_SNPS=snps
 LOCAL_REFDATA=ref-data
 
+BUCKETNAME=$1
 
-sudo umount $S3MNTDIR
-s3fs -o passwd_file=$BASE/passwd-s3fs 1001proteomes $S3MNTDIR
+if [ -z $BUCKETNAME ]
+then
+    BUCKETNAME="1001proteomes"
+fi
+
+if [ -d $S3MNTDIR ]
+    FILESINMNT=`ls -1 $S3MNTDIR | wc -l`
+    if [ ! $FILESINMNT -gt 0 ]
+    then
+        sudo umount $S3MNTDIR
+    fi
+fi
 
 if [ ! -d $S3MNTDIR ]; then
     mkdir $S3MNTDIR
+fi
+
+s3fs $BUCKETNAME $S3MNTDIR
+rc=$?
+
+if [ $rc -gt 0 ]; then
+    exit $rc
 fi
 
 if [ ! -d $REFDATA ]; then

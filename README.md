@@ -3,7 +3,7 @@
 ## Installation ##
 
     make
-    cpan install Inline::C
+    sudo perl -MCPAN -e 'install Inline::C'
 
 ## Running ##
 
@@ -71,6 +71,17 @@ For example:
     Chr1	597	C	T
     Chr1	603	G	A
 
-## Setup on an EC2 Instance ##
+## Setup on an Amazon EC2 Instance, storing data on S3 ##
 
+You can back the execution of this using EC2. Start up an instance of the following AMI
+
+Log in to this machine, and set the following environment variables: AWSACCESSKEYID and AWSSECRETACCESSKEY
+
+Following that, from the snp-server directory:
+
+    git pull
+    
+    make clean && make
+
+    bin/setup_s3fs.sh BUCKETNAME
     
