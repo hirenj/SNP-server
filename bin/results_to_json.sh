@@ -65,7 +65,7 @@ awk -F',' '{    rest_of_line = substr($0, index($0,$2));\
                     if (current_agi != "") { \
                         print "}}";\
                     }\
-                    printf $1 ",\{ \"data\": {" rest_of_line; current_agi = $1;\
+                    printf $1 ",{ \"data\": {" rest_of_line; current_agi = $1;\
                 }\
             }\
             END {\
