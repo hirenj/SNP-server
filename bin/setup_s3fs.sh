@@ -22,7 +22,7 @@ then
     BUCKETNAME="1001proteomes"
 fi
 
-if [ -d $S3MNTDIR ]
+if [ -d $S3MNTDIR ]; then
     FILESINMNT=`ls -1 $S3MNTDIR | wc -l`
     if [ ! $FILESINMNT -gt 0 ]
     then
@@ -34,7 +34,7 @@ if [ ! -d $S3MNTDIR ]; then
     mkdir $S3MNTDIR
 fi
 
-if [ -n "${VAR:+1}" ]; then
+if [ -n "${S3PASSWDFILE:+1}" ]; then
     S3OPTIONS="-opasswd_file=$S3PASSWDFILE"
 fi
 
@@ -72,24 +72,24 @@ if [ ! -d $GATORDIR ]; then
 fi
 
 if [ ! -d $LOCAL_OUT ]; then
-    ln -s $GATORDIR $LOCAL_OUT
+    ln -i -s $GATORDIR $LOCAL_OUT
 fi
 
 if [ ! -d $LOCAL_FASTAS ]; then
-    ln -s $FASTADIR $LOCAL_FASTAS
+    ln -i -s $FASTADIR $LOCAL_FASTAS
 fi
 
 if [ ! -d $LOCAL_SNPS ]; then
-    ln -s $SNPDIR $LOCAL_SNPS
+    ln -i -s $SNPDIR $LOCAL_SNPS
 fi
 
 if [ ! -d $LOCAL_REFDATA ]; then
-    ln -s $REFDATA $LOCAL_REFDATA
+    ln -i -s $REFDATA $LOCAL_REFDATA
 fi
 
 if [ ! -d $LOCAL_WORK ]; then
     if [ ! -d $WORKDIR ]; then
         mkdir $WORKDIR
     fi
-    ln -s $WORKDIR $LOCAL_WORK
+    ln -i -s $WORKDIR $LOCAL_WORK
 fi

@@ -1,18 +1,22 @@
 #!/bin/sh
 
 S3PASSWDFILE=/tmp/.passwd-s3fs
+BUCKET=1001proteomes
 
 if [ ! -e $S3PASSWDFILE ]; then
-    read -p "Username: " accessKeyId 
+    read -p "Access Key Id: " accessKeyId 
     stty -echo 
-    read -p "Password: " secretAccessKey; echo 
+    read -p "Secret Access Key: " secretAccessKey; echo 
     stty echo
-    echo "$accessKeyId"":""$secretAcessKey" > $S3PASSWDFILE
+    read -p "Bucket name: " BUCKET
+    echo "$accessKeyId"":""$secretAccessKey" > $S3PASSWDFILE
     chmod 600 $S3PASSWDFILE
 fi
 
-bin/setup_s3fs.sh
+export S3PASSWDFILE
 
-bin/snp_generator.sh
+bin/setup_s3fs.sh $BUCKET
 
-sudo umount $HOME/mnt_s3
+#bin/snp_generator.sh
+
+#sudo umount $HOME/mnt_s3
