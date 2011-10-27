@@ -1,7 +1,7 @@
 #!/bin/sh
 
 S3PASSWDFILE=/tmp/.passwd-s3fs
-BUCKET=1001proteomes
+BUCKET=$1
 
 if [ ! -e $S3PASSWDFILE ]; then
     read -p "Access Key Id: " accessKeyId 
@@ -17,6 +17,8 @@ export S3PASSWDFILE
 
 bin/setup_s3fs.sh $BUCKET
 
-#bin/snp_generator.sh
+bin/snp_generator.sh
 
-#sudo umount $HOME/mnt_s3
+bin/generate_indexes.sh $HOME/mnt_s3/translated
+
+sudo umount $HOME/mnt_s3

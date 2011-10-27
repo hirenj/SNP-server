@@ -14,8 +14,10 @@ From this root directory
 If you pass in a list of SNPFILES, it will read those SNP files, otherwise it will look in
 the default directory for SNPs.
 
-## Important directories ##
+If there are any problems with the execution, search for any files in the work 
+directory that have the extension .error
 
+## Important directories ##
 
     work
 
@@ -71,11 +73,39 @@ For example:
     Chr1	597	C	T
     Chr1	603	G	A
 
+### S3 Bucket setup ###
+
+Create a new bucket in S3
+
+    BUCKET_ROOT
+        +--translated
+        +--tair-data
+        +--snps
+        +--gator-snps
+
+You'll need to set a policy on your bucket to make it world readable
+
+    {
+    	"Version": "2008-10-17",
+    	"Id": "",
+    	"Statement": [
+    		{
+    			"Sid": "AllowPublicRead",
+    			"Effect": "Allow",
+    			"Principal": {
+    				"AWS": "*"
+    			},
+    			"Action": "s3:GetObject",
+    			"Resource": "arn:aws:s3:::BUCKETNAME/*"
+    		}
+    	]
+    }
+
 ## Setup on an Amazon EC2 Instance, storing data on S3 ##
 
 You can back the execution of this using EC2. Start up an instance of the following AMI
 
-Log in to this machine, and set the following environment variables: AWSACCESSKEYID and AWSSECRETACCESSKEY
+Log in to the machine: 
 
 Following that, from the snp-server directory:
 
@@ -83,5 +113,8 @@ Following that, from the snp-server directory:
     
     make clean && make
 
-    bin/setup_s3fs.sh BUCKETNAME
+    bin/make_new_snps.sh BUCKETNAME
+    
+The script will prompt you to put in your access credentials from Amazon,
+and then proceed to generate all the fasta files into your bucket.
     
