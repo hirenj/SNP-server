@@ -7,11 +7,13 @@ FASTADIR=$S3MNTDIR/translated
 SNPDIR=$S3MNTDIR/snps
 GATORDIR=$S3MNTDIR/gator-snps
 REFDATA=$S3MNTDIR/tair-data
+WORKDIR=/tmp/work
 
 LOCAL_OUT=out
 LOCAL_FASTAS=fastas
 LOCAL_SNPS=snps
 LOCAL_REFDATA=ref-data
+LOCAL_WORK=work
 
 BUCKETNAME=$1
 
@@ -32,7 +34,11 @@ if [ ! -d $S3MNTDIR ]; then
     mkdir $S3MNTDIR
 fi
 
-s3fs $BUCKETNAME $S3MNTDIR
+if [ -n "${VAR:+1}" ]; then
+    S3OPTIONS="-opasswd_file=$S3PASSWDFILE"
+fi
+
+s3fs $BUCKETNAME $S3MNTDIR $S3OPTIONS
 rc=$?
 
 if [ $rc -gt 0 ]; then
@@ -81,5 +87,9 @@ if [ ! -d $LOCAL_REFDATA ]; then
     ln -s $REFDATA $LOCAL_REFDATA
 fi
 
-mkdir /tmp/work
-ln -s /tmp/work work
+if [ ! -d $LOCAL_WORK ]; then
+    if [ ! -d $WORKDIR ]; then
+        mkdir $WORKDIR
+    fi
+    ln -s $WORKDIR $LOCAL_WORK
+fi
