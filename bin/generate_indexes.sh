@@ -9,7 +9,7 @@ fi
 
 echo "<html><head><title>Fasta files</title><link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"></head><body>" > $fastadir/index.html
 
-for acc in `ls -1 -d $fastadir/* | sort`; do
+for acc in `find $fastadir/* -type d | sort`; do
     accname=${acc##*/}
     echo "<div><h2>$accname</h2><ul>" >> $fastadir/index.html
     echo "<li><a href=\"$accname/protein_chr1.fas\">Chromosome 1</a></li>" >> $fastadir/index.html
