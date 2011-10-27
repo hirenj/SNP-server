@@ -2,6 +2,10 @@
 
 fastadir=$1
 
+if [ ! -n "${fastadir:+1}" ]; then
+    exit 1
+fi
+
 if [ ! -d $fastadir ]; then
     echo "FASTA dir '$fastadir' does not exist"
     exit 1
@@ -18,7 +22,7 @@ for acc in `find $fastadir/* -type d | sort`; do
     echo "<li><a href=\"$accname/protein_chr4.fas\">Chromosome 4</a></li>" >> $fastadir/index.html
     echo "<li><a href=\"$accname/protein_chr5.fas\">Chromosome 5</a></li>" >> $fastadir/index.html
     echo "<li><a href=\"$accname/protein_chrm.fas\">Chromosome M</a></li>" >> $fastadir/index.html
-    echo "<li><a href=\"$accname/protein_chrm.fas\">Chromosome C</a></li>" >> $fastadir/index.html
+    echo "<li><a href=\"$accname/protein_chrc.fas\">Chromosome C</a></li>" >> $fastadir/index.html
     echo "</ul></div>" >> $fastadir/index.html
 done
 
