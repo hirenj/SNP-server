@@ -25,15 +25,21 @@ The work directory is a WORKING directory, and contains caches of chromosome fil
 after SNPs have been applied to them, etc. This directory can and will be regularly
 cleaned up/changed.
 
+---
+
     fastas
 
 The fastas directory is an output directory. Here you'll find the finished and translated
 proteins for each chromosome.
 
+---
+
     out
     
 The out directory contains output from the json-like file creator script, which will
 summarise all the protein SNPs found for each of the accessions into a single file.
+
+---
 
     ref-data
     
@@ -50,6 +56,9 @@ This contains reference data used for doing the translations. In general, the di
                 +--chr5.fas
                 +--chrc.fas
                 +--chrm.fas
+
+
+---
 
     snps
 
@@ -72,6 +81,9 @@ For example:
     Chr1	575	G	T
     Chr1	597	C	T
     Chr1	603	G	A
+
+
+## Setup on an Amazon EC2 Instance, storing data on S3 ##
 
 ### S3 Bucket setup ###
 
@@ -101,7 +113,7 @@ You'll need to set a policy on your bucket to make it world readable
     	]
     }
 
-## Setup on an Amazon EC2 Instance, storing data on S3 ##
+### Firing up a server ###
 
 You can back the execution of this using EC2. Start up an instance of the following AMI: ami-6b814f02
     
