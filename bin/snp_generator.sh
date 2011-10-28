@@ -43,7 +43,7 @@ do
 
     finished_count=`ls -1 $FASTADIR/$work_id/protein_chr*.fas 2> /dev/null | wc -l | sed -e 's/ *//'`
 
-    if [ ! -e "$WORKDIR/$work_id.done" ] && [ $finished_count -eq '7' ]
+    if [ ! -e "$WORKDIR/$work_id.done" ] && [ "$finished_count" -eq "7" ]
     then
         touch "$WORKDIR/$work_id.done"
         continue
@@ -75,7 +75,7 @@ do
     do
         chr=`echo ${chr_file%%.fas} | sed 's#^.*/chr##'`
         if [ -e $workdir/chr$chr.inprogress ]; then
-            current_status
+            echo "$work_id in progress, exiting"
             exit 0
         fi
         
@@ -91,7 +91,7 @@ do
         
         $SNP_APPLY --chromosome $chr_file --snp $snp --write "$workdir/chr$chr.inprogress" -v -v -v 2> $workdir/chr$chr.log
         
-        if [ $? -ne 0 ]; then
+        if [ "$?" -ne "0" ]; then
             mv "$workdir/chr$chr.log" "$workdir/chr$chr.error"
             rm "$workdir/chr$chr.inprogress"
             echo "Did not complete updating chromsome $chr for $tair_ver using SNP $snp_ver"
