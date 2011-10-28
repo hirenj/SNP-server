@@ -103,8 +103,8 @@ You'll need to set a policy on your bucket to make it world readable
 
 ## Setup on an Amazon EC2 Instance, storing data on S3 ##
 
-You can back the execution of this using EC2. Start up an instance of the following AMI
-
+You can back the execution of this using EC2. Start up an instance of the following AMI: ami-6b814f02
+    
 Log in to the machine: 
 
 Following that, from the snp-server directory:
