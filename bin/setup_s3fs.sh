@@ -7,7 +7,7 @@ FASTADIR=$S3MNTDIR/translated
 SNPDIR=$S3MNTDIR/snps
 GATORDIR=$S3MNTDIR/gator-snps
 REFDATA=$S3MNTDIR/tair-data
-WORKDIR=/tmp/work
+WORKDIR=/mnt/work
 
 LOCAL_OUT=out
 LOCAL_FASTAS=fastas
