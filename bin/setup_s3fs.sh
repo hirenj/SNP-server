@@ -89,7 +89,8 @@ fi
 
 if [ ! -d $LOCAL_WORK ]; then
     if [ ! -d $WORKDIR ]; then
-        mkdir $WORKDIR
+        sudo mkdir $WORKDIR
+        sudo chown -R $USER:$USER $WORKDIR
     fi
     ln -i -s $WORKDIR $LOCAL_WORK
 fi
