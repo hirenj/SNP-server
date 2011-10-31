@@ -46,6 +46,7 @@ do
     if [ ! -e "$WORKDIR/$work_id.done" ] && [ "$finished_count" -eq "7" ]
     then
         touch "$WORKDIR/$work_id.done"
+        echo "$work_id already complete"
         continue
     fi
     
@@ -58,6 +59,7 @@ do
     
     if [ -e "$WORKDIR/$work_id.done" ]
     then
+        echo "$work_id already complete"
         continue
     fi
 
@@ -70,6 +72,9 @@ do
     if [ ! -d $workdir ]; then
         mkdir $workdir
     fi
+    
+    echo "Working on $work_id"
+    
     pseudoname="_pseudochromosomes/chr*.fas"
     for chr_file in `ls -1 $REFDATA/$tair_ver/$tair_ver$pseudoname`
     do
