@@ -35,6 +35,12 @@ if [ ! -d $S3MNTDIR ]; then
     mkdir $S3MNTDIR
 fi
 
+if [ ! -d $CACHEDIR ]; then
+    sudo mkdir $CACHEDIR
+    sudo chown -R $USER:$USER $CACHEDIR
+fi
+
+
 if [ -n "${S3PASSWDFILE:+1}" ]; then
     S3OPTIONS="-opasswd_file=$S3PASSWDFILE -ouse_cache=$CACHEDIR"
 fi
