@@ -28,7 +28,7 @@ fi
 
 
 echo "Removing files in progress"
-find $WORKDIR -name '*.inprogress' -exec rm {} \;
+find "$WORKDIR/" -name '*.inprogress' -exec rm {} \;
 
 
 FILES=($@)
