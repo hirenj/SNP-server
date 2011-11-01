@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 fastadir=$1
 shift
