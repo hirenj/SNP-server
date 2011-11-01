@@ -42,7 +42,7 @@ fi
 
 
 if [ -n "${S3PASSWDFILE:+1}" ]; then
-    S3OPTIONS="-opasswd_file=$S3PASSWDFILE -ouse_cache=$CACHEDIR"
+    S3OPTIONS="-opasswd_file=$S3PASSWDFILE"
 fi
 
 s3fs $BUCKETNAME $S3MNTDIR $S3OPTIONS
