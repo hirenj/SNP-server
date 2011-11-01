@@ -72,7 +72,7 @@ for ecotype in "${ECOTYPES[@]}"; do
 done
 
 for ecotype in "${ECOTYPES[@]}"; do
-    acc="$WORKDIR/$ecotype-seqs.txt"
+    acc="$WORKDIR/$ecotype-subs.txt"
     if [ ! -e $acc ]; then
         continue
     fi    
