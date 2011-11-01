@@ -34,7 +34,7 @@ for ecotype in "tair9-col0" "tair10-col0" "${ECOTYPES[@]}"; do
         touch "$WORKDIR/$ecotype-json.txt"
         counter=0
         for fasta in `ls -1 $FASTADIR/$ecotype/*.fas`; do
-            counter=$counter+1
+            counter=`expr $counter+1`
             perl -e "$PERLPROG" "$fasta" >> "$WORKDIR/$ecotype-json.txt"
             echo "$fasta converted to a json"
         done
