@@ -32,14 +32,24 @@ PERLPROG='open(FASTA,$ARGV[0]); while(my $line = <FASTA>) { $line =~ s/\n$//; if
 for ecotype in "${ECOTYPES[@]}"; do
     if [ ! -e $WORKDIR/$ecotype-json.txt ]; then
         touch "$WORKDIR/$ecotype-json.txt"
+        counter=0
         for fasta in `ls -1 $FASTADIR/$ecotype/*.fas`; do
+            counter=counter+1
             perl -e "$PERLPROG" "$fasta" >> "$WORKDIR/$ecotype-json.txt"
             echo "$fasta converted to a json"
         done
+        if [ ! $counter = 7 ]
+        then
+            rm "$WORKDIR/$ecotype-json.txt"
+        fi
     fi
 done
 
-for acc in $WORKDIR/*-json.txt; do
+for ecotype in "${ECOTYPES[@]}"; do
+    acc="$WORKDIR/$ecotype-json.txt"
+    if [ ! -e $acc ]; then
+        continue
+    fi
     accname=`echo $acc | perl -pe 's/.*(TAIR[0-9][0-9]*-.*)-.*/\1/i'`;
     if [ ! -e $WORKDIR/$accname-seqs.txt ]; then
         cat $acc | awk -F'","' '{ print $1 "," $3 }' | sed -e 's/"]}//' | sed -e 's/^.*"//' > $WORKDIR/$accname-seqs.txt
@@ -47,7 +57,11 @@ for acc in $WORKDIR/*-json.txt; do
     fi
 done
 
-for acc in $WORKDIR/*-json.txt; do
+for ecotype in "${ECOTYPES[@]}"; do
+    acc="$WORKDIR/$ecotype-seqs.txt"
+    if [ ! -e $acc ]; then
+        continue
+    fi
     accname=`echo $acc | perl -pe 's/.*(TAIR[0-9][0-9]*-.*)-.*/\1/i'`;
     tairver=`echo $acc | perl -pe 's/.*(TAIR[0-9][0-9]*).*/\1/i'`;
     if [ ! -e $WORKDIR/$accname-subs.txt ]; then
@@ -56,7 +70,11 @@ for acc in $WORKDIR/*-json.txt; do
     fi
 done
 
-for acc in $WORKDIR/*-subs.txt; do\
+for ecotype in "${ECOTYPES[@]}"; do
+    acc="$WORKDIR/$ecotype-seqs.txt"
+    if [ ! -e $acc ]; then
+        continue
+    fi    
     accname=`echo "$acc" | perl -pe 's/TAIR.*-(.*)-subs.txt/\1/i'`;\
     cat $acc | sed -e 's/\([:,]\)/"\1"/g' | sed -e 's/ \([0-9]\)/ "\1/' |\
     awk "{ print \$1 \",\\\"$accname\\\" : {\" \$2 \"},\" }" |\
