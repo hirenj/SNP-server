@@ -30,6 +30,8 @@ fi
 
 PERLPROG='open(FASTA,$ARGV[0]); while(my $line = <FASTA>) { $line =~ s/\n$//; if ($line =~ s/^>// ) { if ($line !~ /^\s*$/) { print qq|{"data" : ["$line","","|; } } elsif ($line !~ /^\s*$/) { $line =~ s/\*$//; print qq|$line"]}\n|; } }'
 for ecotype in "tair9-col0" "tair10-col0" "${ECOTYPES[@]}"; do
+    echo $ecotype
+    exit 1
     if [ ! -e "$WORKDIR/$ecotype-json.txt" ]; then
         touch "$WORKDIR/$ecotype-json.txt"
         counter=0
