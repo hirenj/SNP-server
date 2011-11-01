@@ -29,7 +29,7 @@ fi
 
 
 PERLPROG='open(FASTA,$ARGV[0]); while(my $line = <FASTA>) { $line =~ s/\n$//; if ($line =~ s/^>// ) { if ($line !~ /^\s*$/) { print qq|{"data" : ["$line","","|; } } elsif ($line !~ /^\s*$/) { $line =~ s/\*$//; print qq|$line"]}\n|; } }'
-for ecotype in "${ECOTYPES[@]}"; do
+for ecotype in "tair9-col0" "tair10-col0" "${ECOTYPES[@]}"; do
     if [ ! -e $WORKDIR/$ecotype-json.txt ]; then
         touch "$WORKDIR/$ecotype-json.txt"
         counter=0
@@ -45,7 +45,7 @@ for ecotype in "${ECOTYPES[@]}"; do
     fi
 done
 
-for ecotype in "${ECOTYPES[@]}"; do
+for ecotype in "tair9-col0" "tair10-col0" "${ECOTYPES[@]}"; do
     acc="$WORKDIR/$ecotype-json.txt"
     if [ ! -e $acc ]; then
         continue
@@ -57,7 +57,7 @@ for ecotype in "${ECOTYPES[@]}"; do
     fi
 done
 
-for ecotype in "${ECOTYPES[@]}"; do
+for ecotype in "tair9-col0" "tair10-col0" "${ECOTYPES[@]}"; do
     acc="$WORKDIR/$ecotype-seqs.txt"
     if [ ! -e $acc ]; then
         continue
