@@ -40,6 +40,7 @@ for ecotype in "tair9-col0" "tair10-col0" "${ECOTYPES[@]}"; do
         done
         if [ ! $counter = 7 ]
         then
+            echo "Removing $ecotype, not enough $counter"
             rm "$WORKDIR/$ecotype-json.txt"
         fi
     fi
