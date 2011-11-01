@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 S3PASSWDFILE=/tmp/.passwd-s3fs
 BUCKET=$1

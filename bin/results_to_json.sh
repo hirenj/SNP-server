@@ -64,8 +64,8 @@ for ecotype in "${ECOTYPES[@]}"; do
     fi
     accname=`echo $acc | perl -pe 's/.*(TAIR[0-9][0-9]*-.*)-.*/\1/i'`;
     tairver=`echo $acc | perl -pe 's/.*(TAIR[0-9][0-9]*).*/\1/i'`;
-    if [ ! -e $WORKDIR/$accname-subs.txt ]; then
-        bin/fast_diff $WORKDIR/$tairver-col0-seqs.txt $WORKDIR/$accname-seqs.txt > $WORKDIR/$accname-subs.txt;  
+    if [ ! -e "$WORKDIR/$accname-subs.txt" ]; then
+        bin/fast_diff "$WORKDIR/$tairver-col0-seqs.txt" "$WORKDIR/$accname-seqs.txt" > "$WORKDIR/$accname-subs.txt";  
         echo $accname-subs.txt
     fi
 done
