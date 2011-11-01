@@ -30,7 +30,7 @@ fi
 
 PERLPROG='open(FASTA,$ARGV[0]); while(my $line = <FASTA>) { $line =~ s/\n$//; if ($line =~ s/^>// ) { if ($line !~ /^\s*$/) { print qq|{"data" : ["$line","","|; } } elsif ($line !~ /^\s*$/) { $line =~ s/\*$//; print qq|$line"]}\n|; } }'
 for ecotype in "tair9-col0" "tair10-col0" "${ECOTYPES[@]}"; do
-    if [ ! -e $WORKDIR/$ecotype-json.txt ]; then
+    if [ ! -e "$WORKDIR/$ecotype-json.txt" ]; then
         touch "$WORKDIR/$ecotype-json.txt"
         counter=0
         for fasta in `ls -1 $FASTADIR/$ecotype/*.fas`; do
@@ -38,7 +38,7 @@ for ecotype in "tair9-col0" "tair10-col0" "${ECOTYPES[@]}"; do
             perl -e "$PERLPROG" "$fasta" >> "$WORKDIR/$ecotype-json.txt"
             echo "$fasta converted to a json"
         done
-        if [ ! $counter = 7 ]
+        if [ ! "$counter" = 7 ]
         then
             echo "Removing $ecotype, not enough $counter"
             rm "$WORKDIR/$ecotype-json.txt"
@@ -48,11 +48,11 @@ done
 
 for ecotype in "tair9-col0" "tair10-col0" "${ECOTYPES[@]}"; do
     acc="$WORKDIR/$ecotype-json.txt"
-    if [ ! -e $acc ]; then
+    if [ ! -e "$acc" ]; then
         continue
     fi
     accname=`echo $acc | perl -pe 's/.*(TAIR[0-9][0-9]*-.*)-.*/\1/i'`;
-    if [ ! -e $WORKDIR/$accname-seqs.txt ]; then
+    if [ ! -e "$WORKDIR/$accname-seqs.txt" ]; then
         cat $acc | awk -F'","' '{ print $1 "," $3 }' | sed -e 's/"]}//' | sed -e 's/^.*"//' > $WORKDIR/$accname-seqs.txt
         echo $accname-seqs.txt
     fi
@@ -60,15 +60,14 @@ done
 
 for ecotype in "tair9-col0" "tair10-col0" "${ECOTYPES[@]}"; do
     acc="$WORKDIR/$ecotype-seqs.txt"
-    if [ ! -e $acc ]; then
+    if [ ! -e "$acc" ]; then
         continue
     fi
     accname=`echo $acc | perl -pe 's/.*(TAIR[0-9][0-9]*-.*)-.*/\1/i'`
     tairver=`echo $acc | perl -pe 's/.*(TAIR[0-9][0-9]*).*/\1/i'`
-    if [ ! -e $WORKDIR/$tairver-col0-seqs.txt ]; then
+    if [ ! -e "$WORKDIR/$tairver-col0-seqs.txt" ]; then
         continue
     fi
-    echo "Subs for $accname"
     if [ ! -e "$WORKDIR/$accname-subs.txt" ]; then
         PROG="bin/fast_diff $WORKDIR/$tairver-col0-seqs.txt $WORKDIR/$accname-seqs.txt"
         $PROG > "$WORKDIR/$accname-subs.txt"        
@@ -81,7 +80,7 @@ for ecotype in "${ECOTYPES[@]}"; do
     if [ ! -e $acc ]; then
         continue
     fi    
-    accname=`echo "$acc" | perl -pe 's/TAIR.*-(.*)-subs.txt/\1/i'`;\
+    accname=`echo "$ecotype" | perl -pe 's/TAIR\d+-(.*)/\1/i'`
     cat $acc | sed -e 's/\([:,]\)/"\1"/g' | sed -e 's/ \([0-9]\)/ "\1/' |\
     awk "{ print \$1 \",\\\"$accname\\\" : {\" \$2 \"},\" }" |\
     sed -e 's/,\"}/}/';\
