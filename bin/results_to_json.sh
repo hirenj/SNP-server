@@ -64,6 +64,9 @@ for ecotype in "tair9-col0" "tair10-col0" "${ECOTYPES[@]}"; do
     fi
     accname=`echo $acc | perl -pe 's/.*(TAIR[0-9][0-9]*-.*)-.*/\1/i'`
     tairver=`echo $acc | perl -pe 's/.*(TAIR[0-9][0-9]*).*/\1/i'`
+    if [ ! -e $WORKDIR/$tairver-col0-seqs.txt ]; then
+        continue
+    fi
     echo "Subs for $accname"
     if [ ! -e "$WORKDIR/$accname-subs.txt" ]; then
         PROG="bin/fast_diff $WORKDIR/$tairver-col0-seqs.txt $WORKDIR/$accname-seqs.txt"
