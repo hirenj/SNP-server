@@ -8,6 +8,7 @@ SNPDIR=$S3MNTDIR/snps
 GATORDIR=$S3MNTDIR/gator-snps
 REFDATA=$S3MNTDIR/tair-data
 WORKDIR=/mnt/work
+CACHEDIR=/mnt/cache
 
 LOCAL_OUT=out
 LOCAL_FASTAS=fastas
@@ -35,7 +36,7 @@ if [ ! -d $S3MNTDIR ]; then
 fi
 
 if [ -n "${S3PASSWDFILE:+1}" ]; then
-    S3OPTIONS="-opasswd_file=$S3PASSWDFILE"
+    S3OPTIONS="-opasswd_file=$S3PASSWDFILE -ouse_cache=$CACHEDIR"
 fi
 
 s3fs $BUCKETNAME $S3MNTDIR $S3OPTIONS

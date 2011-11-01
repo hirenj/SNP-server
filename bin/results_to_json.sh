@@ -18,17 +18,23 @@ then
     exit 1;
 fi
 
+ECOTYPES=($@)
+if [[ $# = 0 ]]; then
+   FILES=($WORKDIR/*done)
+   for snp in "${FILES[@]}"; do
+       ecotype=`echo "$snp" | perl -pe 's/.*(tair\d+)-snp-([^-]+)\..*$/\1-\2/i'`
+       ECOTYPES+=($ecotype)
+   done
+fi
+
 
 PERLPROG='open(FASTA,$ARGV[0]); while(my $line = <FASTA>) { $line =~ s/\n$//; if ($line =~ s/^>// ) { if ($line !~ /^\s*$/) { print qq|{"data" : ["$line","","|; } } elsif ($line !~ /^\s*$/) { $line =~ s/\*$//; print qq|$line"]}\n|; } }'
-for i in `find -L $FASTADIR -name 'protein*m.fas'`; do
-    ecotype=${i%/*}
-    result=${ecotype##*/}
-    echo $result;
-    if [ ! -e $WORKDIR/$result-json.txt ]; then
-        touch "$WORKDIR/$result-json.txt"
-        for fasta in `ls -1 $ecotype`; do
-            perl -e "$PERLPROG" "$ecotype/$fasta" >> "$WORKDIR/$result-json.txt"
-            echo "$ecotype/$fasta converted to a json"
+for ecotype in "${ECOTYPES[@]}"; do
+    if [ ! -e $WORKDIR/$ecotype-json.txt ]; then
+        touch "$WORKDIR/$ecotype-json.txt"
+        for fasta in `ls -1 $FASTADIR/$ecotype/*.fas`; do
+            perl -e "$PERLPROG" "$fasta" >> "$WORKDIR/$ecotype-json.txt"
+            echo "$fasta converted to a json"
         done
     fi
 done

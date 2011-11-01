@@ -164,5 +164,3 @@ do
     touch "$WORKDIR/$work_id.done"
 
 done
-
-bin/results_to_json.sh
