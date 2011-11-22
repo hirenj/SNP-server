@@ -27,7 +27,7 @@ fi
 
 for acc in "${ECOTYPES[@]}"; do
     echo $acc
-    echo "<div><h2>$acc protein pseudochromosomes</h2><ul>" >> $tmpindex
+    echo "<div><h2>$acc protein sets</h2><ul>" >> $tmpindex
     echo "<li><a href=\"$acc/protein_chr1.fas\">pep_chr1</a></li>" >> $tmpindex
     echo "<li><a href=\"$acc/protein_chr2.fas\">pep_chr2</a></li>" >> $tmpindex
     echo "<li><a href=\"$acc/protein_chr3.fas\">pep_chr3</a></li>" >> $tmpindex
